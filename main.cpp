@@ -4,7 +4,7 @@
 class Car {
 public:
     Car() {
-        shape.setSize(sf::Vector2f(50, 300));
+        shape.setSize(sf::Vector2f(50, 400));
         shape.setFillColor(sf::Color::Black);
         shape.setPosition(375, 270);
         velocity = 0.1f;
