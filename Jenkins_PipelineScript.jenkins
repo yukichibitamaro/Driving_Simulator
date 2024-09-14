@@ -12,7 +12,7 @@ pipeline {
         
         stage('Build') {
             steps {
-                echo 'Success'
+                echo env.GIT_COMMIT
             }
         }
     }
