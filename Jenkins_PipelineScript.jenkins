@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     env.GIT_COMMIT = params.GIT_COMMIT_ID
-                    echo ${env.GIT_COMMIT}
+                    echo env.GIT_COMMIT
                 }
             }
         }
