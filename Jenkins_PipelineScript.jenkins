@@ -2,24 +2,26 @@ pipeline {
     agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
 
     stages {
-    // 指定ブランチのチェックアウトとコミットIDの取得
+        // 指定ブランチのチェックアウトとコミットIDの取得
         stage('Branch Checkout & Get CommitID') {
             steps {
                 checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
             }
         }
-stage('GET info'){
-    steps {
-        script{
-            env.GIT_COMMIT_ID = params.GIT_COMMIT_ID
-            echo params.GIT_COMMIT_ID
-            echo env.GIT_COMMIT_ID
+
+        stage('GET info'){
+            steps {
+                script{
+                    // 現在のコミットIDを取得して環境変数にセット
+                    env.GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                    // コミットIDを表示
+                    echo env.GIT_COMMIT_ID
+                }
+            }
         }
     }
 }
 
-    }
-}
 //
 
 
