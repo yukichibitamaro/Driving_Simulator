@@ -12,6 +12,7 @@ stage('GET info'){
     steps {
         script{
             env.GIT_COMMIT_ID = params.GIT_COMMIT_ID
+            echo params.GIT_COMMIT_ID
             echo env.GIT_COMMIT_ID
         }
     }
