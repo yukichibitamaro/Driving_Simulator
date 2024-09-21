@@ -11,7 +11,7 @@ pipeline {
                 }
             }
         }
-    // FSPの実行 (MSBuild(リリース)ビルド)
+    // FSPの実行 (MSBuild(リリース)ルド)
         stage('Build') {
             steps {
                 build job: 'FSP_test', parameters:[
