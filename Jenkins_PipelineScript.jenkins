@@ -12,7 +12,8 @@ pipeline {
     // ビルドステップeee
         stage('Build') {
             steps {
-                echo 'params.GIT_COMMIT_ID'
+                env.GIT_COMMIT = params.GIT_COMMIT_ID
+                echo ${env.GIT_COMMIT}
             }
         }
     }
