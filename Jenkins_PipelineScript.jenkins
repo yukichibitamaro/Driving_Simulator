@@ -12,7 +12,7 @@ pipeline {
     // ビルドステップeee
         stage('Build') {
             steps {
-                echo 'aaa'
+                echo 'params.GIT_COMMIT_ID'
             }
         }
     }
