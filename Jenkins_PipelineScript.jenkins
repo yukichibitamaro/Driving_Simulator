@@ -12,7 +12,7 @@ pipeline {
                 }
             }
         }
-    // FSPの実行 (MSBuildビルド)
+    // FSPの実行 (MSBuilqdビルド)
         stage('Build') {
            steps {
                 build job: 'FSP_test', parameters:[
