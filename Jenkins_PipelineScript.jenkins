@@ -1,16 +1,16 @@
 pipeline {
-    agent {label 'master'}
+    agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
+
     stages {
-        
-        stage('Checkout') {
+    // 指定ブランチのチェックアウト
+        stage('Checkout')
+        {
             steps {
-                // GitHubリポジトリをチェックアウトするステップ
-                checkout([$class: 'GitSCM', branches: [[name: '*/feature/CItest']],
-                          userRemoteConfigs: [[url: 'https://github.com/yukichibitamaro/Driving_Simulator']]])
+                checkout([$class:'GitSCM', branches:[[name: '*/feature/CItest']], userRemoteConfigs:[[url: 'https:/github.com/yukichibitamaro/Driving_Simulator']]])
             }
         }
-        
-       stage('Build') {
+    // ビルドステップ
+        stage('Build') {
             steps {
                 echo 'aaa'
             }
