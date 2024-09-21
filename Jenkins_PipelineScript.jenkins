@@ -6,12 +6,17 @@ pipeline {
         stage('Branch Checkout & Get CommitID') {
             steps {
                 checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
-                    script {
-                    env.GIT_COMMIT_ID = params.GIT_COMMIT_ID
-                    echo env.GIT_COMMIT_ID
-                }
             }
         }
+stage('GET info'){
+    steps {
+        script{
+            env.GIT_COMMIT_ID = params.GIT_COMMIT_ID
+            echo env.GIT_COMMIT_ID
+        }
+    }
+}
+
     }
 }
 //
