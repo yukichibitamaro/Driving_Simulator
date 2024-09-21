@@ -5,33 +5,20 @@ pipeline {
         // 指定ブランチのチェックアウトとコミットIDの取得
         stage('Branch Checkout & Get CommitID') {
             steps {
-                checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
-            }
-        }
-
-        stage('GET info'){
-            steps {
-                script{
-                    // 現在のコミットIDを取得して環境変数にセット
+                script {
+                    checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
                     env.GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-                    // コミットIDを表示
                     echo env.GIT_COMMIT_ID
                 }
             }
         }
+    // FSPの実行 (MSBuildビルド-)
+        stage('Build') {
+           steps {
+                build job: 'FSP_test', parameters:[
+                    string(name:'HASH', value: env.GIT_COMMIT_ID)
+                    ]
+            }
+        }
     }
 }
-
-//
-
-
-    // FSPの実行 (MSBuildビルド-)
-        //stage('Build') {
-         //   steps {
-          //      build job: 'FSP_test', parameters:[
-            //        string(name:'HASH', value: env.GIT_COMMIT_ID)
-             //       ]
-            //}
-       // }
-    //}
-//}
