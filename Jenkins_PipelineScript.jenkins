@@ -8,6 +8,7 @@ pipeline {
                 script {
                     checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
                     env.GIT_COMMIT_ID = params.GIT_COMMIT_ID
+                    echo env.GIT_COMMIT_ID
                 }
             }
         }
@@ -15,7 +16,7 @@ pipeline {
         stage('Build') {
             steps {
                 build job: 'FSP_test', parameters:[
-                    string(name:'HASH', value:env.GIT_COMMIT_ID)
+                    string(name:'HASH', value: env.GIT_COMMIT_ID)
                     ]
             }
         }
