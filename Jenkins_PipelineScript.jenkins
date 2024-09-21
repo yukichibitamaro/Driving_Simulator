@@ -9,7 +9,7 @@ pipeline {
                 checkout([$class:'GitSCM', branches:[[name: '*/feature/CItest']], userRemoteConfigs:[[url: 'https:/github.com/yukichibitamaro/Driving_Simulator']]])
             }
         }
-    // ビルドステップ1
+    // ビルドステップ99
         stage('Build') {
             steps {
                 echo 'aaa'
