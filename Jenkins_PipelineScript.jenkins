@@ -2,20 +2,22 @@ pipeline {
     agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
 
     stages {
-    // 指定ブランチのチェックアウト
-        stage('Checkout')
-        {
-            steps {
-                checkout([$class:'GitSCM', branches:[[name: '*/feature/CItest']], userRemoteConfigs:[[url: 'https:/github.com/yukichibitamaro/Driving_Simulator']]])
-            }
-        }
-    // ビルドステップeee
-        stage('Build') {
+    // 指定ブランチのチェックアウトとコミットIDの取得
+        stage('Branch Checkout & Get CommitID') {
             steps {
                 script {
-                    env.GIT_COMMIT = params.GIT_COMMIT_ID
-                    echo env.GIT_COMMIT
+                    checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
+                    env.GIT_COMMIT_ID = params.GIT_COMMIT_ID
                 }
+            }
+        }
+    // FSPの実行 (MSBuild(リリース)ビルド)
+        stage('Build') {
+            steps {
+                build job: 'FSP_test', parameters:[
+                    node(name:'SLAVE', 'Node_Surface_LAPTOP'),
+                    string(name:'HASH', value:env.GIT_COMMIT_ID)
+                    ]
             }
         }
     }
