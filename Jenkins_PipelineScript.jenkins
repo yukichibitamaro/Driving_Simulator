@@ -6,7 +6,7 @@ pipeline {
         stage('Checkout')
         {
             steps {
-                checkout([$class:'GitSCM', branches:[[name: '*/feature/CItest']], userRemoteConfigs:[[url: 'https://github.com/yukichibitamaro/Driving_Simulator']]])
+                checkout([$class:'GitSCM', branches:[[name: '*/feature/CItest']], userRemoteConfigs:[[url: 'https:/github.com/yukichibitamaro/Driving_Simulator']]])
             }
         }
     // ビルドステップeee
