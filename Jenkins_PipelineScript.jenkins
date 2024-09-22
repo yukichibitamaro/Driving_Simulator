@@ -16,7 +16,8 @@ pipeline {
         stage('Build') {
            steps {
                 build job: 'FSP_test', parameters:[
-                    [$class: 'LabelParameterValue', name: 'SLAVE', label: 'Node_SurfaceLAPTOP4'],
+                    //[$class: 'LabelParameterValue', name: 'SLAVE', label: 'Node_SurfaceLAPTOP4'],
+                    string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                     string(name:'HASH', value: env.GIT_COMMIT_ID)
                     ]
             }
