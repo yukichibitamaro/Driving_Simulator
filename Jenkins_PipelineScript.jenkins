@@ -13,14 +13,17 @@ pipeline {
             }
         }
     // FSPの実行 (MSBuilda)
-        stage('Build') {
-           steps {
-                build job: '/Common/FSP_MSbuild2022', parameters:[
-                    string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
-                    string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator'),
-                    string(name:'MSBUILD_FILE', value: 'Driving_simulator.sln'),
-                    string(name:'HASH', value: env.GIT_COMMIT_ID)
+        stage('MSBuild') {
+            steps {
+                script {
+                    build job: '/Common/FSP_MSbuild2022', parameters:[
+                        string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
+                        string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator'),
+                        string(name:'MSBUILD_FILE', value: 'Driving_simulator.sln'),
+                        string(name:'HASH', value: env.GIT_COMMIT_ID)
+                        echo /Common/FSP_MSbuild2022.result
                     ]
+                }
             }
         }
     }
