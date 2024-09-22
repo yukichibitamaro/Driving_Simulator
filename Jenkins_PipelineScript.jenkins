@@ -12,7 +12,7 @@ pipeline {
                 }
             }
         }
-    // FSPの実行 (MSBuilda)
+    // FSPの実行 (MSBuild)
         stage('MSBuild') {
             steps {
                 script {
@@ -28,3 +28,4 @@ pipeline {
         }
     }
 }
+
