@@ -20,7 +20,9 @@ pipeline {
                         string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                         string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator'),
                         string(name:'MSBUILD_FILE', value: 'Driving_simulator.sln'),
-                        string(name:'HASH', value: env.GIT_COMMIT_ID)
+                        string(name:'HASH', value: env.GIT_COMMIT_ID),
+                        string(name:'PLATFORM', value: 'x64'),
+                        string(name:'COMPOSITION', value: 'Release')
                     ]
                     echo MSbuildResult.result
                 }
