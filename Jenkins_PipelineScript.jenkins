@@ -1,30 +1,33 @@
+//////////  Driving Simulatorの自動CIビルド・テスト処理  //////////  
+/////  Jenkinsのpipeline処理をgroovyにて記載  /////
+
+
 pipeline {
     agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
 
     stages {
-        // 指定ブランチのチェックアウトとコミットID(ハッシュ値)の取得
+    // 指定ブランチのチェックアウトとコミットID(ハッシュ)の取得
         stage('Branch Checkout & Get CommitID') {
             steps {
                 script {
+                    echo env.env.BRANCH_NAME
                     checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
                     env.GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-                    echo env.GIT_COMMIT_ID
                 }
             }
         }
-    // FSPの実行 (MSBuild)
+    // MSBuildを実行するFSPの呼び出し(結果をEmail通知する) //
         stage('MSBuild') {
             steps {
                 script {
-                    def MSbuildResult = build job: '/Common/FSP_MSbuild2022', parameters:[
-                        string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
-                        string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator'),
-                        string(name:'MSBUILD_FILE', value: 'Driving_simulator.sln'),
-                        string(name:'HASH', value: env.GIT_COMMIT_ID),
-                        string(name:'PLATFORM', value: 'x64'),
-                        string(name:'COMPOSITION', value: 'Release')
-                    ]
-                    echo MSbuildResult.result
+                    // リリースビルドの実行 //
+                        def MSbuildResult = build job: '/Common/FSP_MSbuild2022', parameters:[
+                            string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
+                            string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator'),
+                            string(name:'MSBUILD_FILE', value: 'Driving_simulator.sln'),
+                            string(name:'HASH', value: env.GIT_COMMIT_ID),
+                            string(name:'PLATFORM', value: 'x64'),
+                            string(name:'COMPOSITION', value: 'Release')]
                 }
             }
         }
