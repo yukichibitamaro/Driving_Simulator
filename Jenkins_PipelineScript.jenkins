@@ -3,24 +3,22 @@
 
 
 pipeline {
-
+///// 初期設定 /////
     // Pipeline監視PCの設定(AWSサーバに設定)
     agent {
         label 'master'
     }
-
     // パラメータ設定
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: '*/feature/CItest', description: 'ブランチ名')
+        string(name: 'BRANCH_NAME', defaultValue: '*/feature/CItest', description: 'ブランチ名') // Gitブランチ名
     }
-
+///// メインCI処理 /////
     // 指定ブランチのチェックアウトとコミットID(ハッシュ)の取得
     stages {
         stage('Branch Checkout & Get CommitID') {
             steps {
                 script {
-                    echo params.BRANCH_NAME
-                    checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
+                    checkout([$class:'GitSCM', branches:[[name:params.BRANCH_NAME]], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
                     env.GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 }
             }
