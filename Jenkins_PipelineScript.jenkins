@@ -10,7 +10,7 @@ pipeline {
         stage('Branch Checkout & Get CommitID') {
             steps {
                 script {
-                    echo env.env.BRANCH_NAME
+                    echo env.BRANCH_NAME
                     checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
                     env.GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 }
