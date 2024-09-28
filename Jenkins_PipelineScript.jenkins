@@ -3,10 +3,19 @@
 
 
 pipeline {
-    agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
 
+    // Pipeline監視PCの設定(AWSサーバに設定)
+    agent {
+        label 'master'
+    }
+
+    // パラメータ設定
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: '*/feature/CItest', description: 'ブランチ名')
+    }
+
+    // 指定ブランチのチェックアウトとコミットID(ハッシュ)の取得
     stages {
-    // 指定ブランチのチェックアウトとコミットID(ハッシュ)の
         stage('Branch Checkout & Get CommitID') {
             steps {
                 script {
