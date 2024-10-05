@@ -1,6 +1,6 @@
 //////////  Driving Simulatorの自動CIビルド・テスト処理  //////////  
 /////  Jenkinsのpipeline処理をgroovyにて記載  /////
-/////だだだだ
+/////だだだだaaaaaaa
 
 
 pipeline {
