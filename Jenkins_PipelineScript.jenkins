@@ -5,7 +5,7 @@ pipeline {
     agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
 
     stages {
-    // 指定ブランチのチェックアウトとコミットID(ハッシュ)の取得
+    // 指定ブランチのチェックアウトとコミットID(ハッシュ)の取得 
         stage('Branch Checkout & Get CommitID') {
             steps {
                 script {
