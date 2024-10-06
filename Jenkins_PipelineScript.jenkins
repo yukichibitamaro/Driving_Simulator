@@ -11,6 +11,7 @@ pipeline {
                 script {
                     checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
                     def GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                    echo GIT_COMMIT_ID
                 }
             }
         }
