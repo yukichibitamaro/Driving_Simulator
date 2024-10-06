@@ -28,7 +28,7 @@ pipeline {
         }
     // JSONファイルの読み込み
         stage('Read Json File') {
-            agent {label 'Node_SurfaceLAPTOP4'} // スレーブにあるjsonファイル読み込みのため，agentを切り替え
+            agent {label 'Node_SurfaceLAPTOP4'} // スレーブにあるjsonファイル読み込みのため，agentを切り替える
                 steps {
                     script {
                         // JSONファイルの読み込みと変数定義
@@ -42,10 +42,9 @@ pipeline {
         }
     // MSBuildの実行およびソフト保存(結果をEmail通知) //
         stage('MSBuild') {
-            agent {label 'master'} // エージェントをmasterに戻す
                 steps {
                     script {
-                        // リリースビルドの実行 //
+                        // リリースビルドの実行
                         try {
                             def MSBUILD_RESULT = build job: '/MSbuild/FSP_MSbuild2022', parameters:[
                                 string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
@@ -66,7 +65,7 @@ pipeline {
                                 string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                                 string(name:'MSBUILD_RESULT', value: 'MSBUILD_RESULT.result')]
                         }
-                        // デバッグビルドの実行 //
+                        // デバッグビルドの実行
                         try {
                             def MSbuildResult = build job: '/MSbuild/FSP_MSbuild2022', parameters:[
                                 string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
