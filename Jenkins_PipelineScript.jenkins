@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
-                    def GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                    env.GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                     echo GIT_COMMIT_ID
                 }
             }
@@ -22,14 +22,14 @@ pipeline {
                     //  GitのCommit情報の取得
                     build job: '/Common/FSP_Get_Git_Information', parameters:[
                     string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
-                    string(name:'HASH', value: GIT_COMMIT_ID),
+                    string(name:'HASH', value: env.GIT_COMMIT_ID),
                     string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator')]
                     // JSONファイルの読み込みと変数定義
                     def GitCommit_Info_JSON = readJSON file: 'GitCommit_Info.json'
-                    def COMMIT_HASH = GitCommit_Info_JSON.commit_hash
-                    def PUSH_AUTHOR = GitCommit_Info_JSON.author
-                    def PUSH_DATE = GitCommit_Info_JSON.date
-                    def COMMIT_MESSAGE = GitCommit_Info_JSON.message
+                    env.COMMIT_HASH = GitCommit_Info_JSON.commit_hash
+                    env.PUSH_AUTHOR = GitCommit_Info_JSON.author
+                    env.PUSH_DATE = GitCommit_Info_JSON.date
+                    env.COMMIT_MESSAGE = GitCommit_Info_JSON.message
                 }
             }
         }
@@ -59,7 +59,7 @@ pipeline {
                             string(name:'MSBUILD_RESULT', value: 'MSBUILD_RESULT.result')]
                     }
                     // デバッグビルドの実行 //
-                                        try {
+                    try {
                         def MSbuildResult = build job: '/MSbuild/FSP_MSbuild2022', parameters:[
                             string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                             string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator'),
