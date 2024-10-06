@@ -20,8 +20,8 @@ pipeline {
             steps {
                 script {
                     //  GitのCommit情報の取得
-                    build job: '/Common/FSP_Get_Git_information', parameters:[
-                    tring(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
+                    build job: '/Common/FSP_Get_Git_Information', parameters:[
+                    string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                     string(name:'HASH', value: GIT_COMMIT_ID),
                     string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator')]
                     // JSONファイルの読み込みと変数定義
