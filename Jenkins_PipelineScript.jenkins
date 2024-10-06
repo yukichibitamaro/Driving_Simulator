@@ -9,11 +9,12 @@ pipeline {
         stage('Branch Checkout & Get CommitID') {
             steps {
                 script {
-                    echo env.env.BRANCH_NAME
+                    echo env.BRANCH_NAME
                     checkout([$class:'GitSCM', branches:[[name:'*/feature/CItest']], userRemoteConfigs:[[url:'https://github.com/yukichibitamaro/Driving_Simulator']]])
                     env.GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 }
             }
+        }
     // MSBuildを実行するFSPの呼び出し(結果をEmail通知する) //
         stage('MSBuild') {
             steps {
@@ -25,6 +26,7 @@ pipeline {
                             string(name:'HASH', value: env.GIT_COMMIT_ID),
                             string(name:'PLATFORM', value: 'x64'),
                             string(name:'COMPOSITION', value: 'Release')]
+                            
                             build job: '/Common/FSP_Get_Information', parameters:[
                             string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                             string(name:'HASH', value: env.GIT_COMMIT_ID)]
