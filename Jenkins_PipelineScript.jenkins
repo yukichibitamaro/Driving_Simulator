@@ -32,7 +32,7 @@ pipeline {
                 steps {
                     script {
                         // JSONファイルの読み込みと変数定義
-                        def GitCommit_Info_JSON = readJSON file: 'C:\Users\yuyas\Documents\04_Virtual_Server_and_Container_Related\CI_Jenkins\workspace\Common\FSP_Get_Git_Information\GitCommit_Info.json'
+                        def GitCommit_Info_JSON = readJSON file: 'C:\\Users\\yuyas\\Documents\\04_Virtual_Server_and_Container_Related\\CI_Jenkins\\workspace\\Common\\FSP_Get_Git_Information\\GitCommit_Info.json'
                         env.COMMIT_HASH = GitCommit_Info_JSON.commit_hash
                         env.PUSH_AUTHOR = GitCommit_Info_JSON.author
                         env.PUSH_DATE = GitCommit_Info_JSON.date
