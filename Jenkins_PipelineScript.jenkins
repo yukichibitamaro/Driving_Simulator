@@ -27,7 +27,7 @@ pipeline {
                             string(name:'PLATFORM', value: 'x64'),
                             string(name:'COMPOSITION', value: 'Release')]
 
-                            build job: '/Common/FSP_Get_Information', parameters:[
+                            build job: '/Common/FSP_Get_Git_information', parameters:[
                             string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                             string(name:'HASH', value: env.GIT_COMMIT_ID)]
                 }
