@@ -1,5 +1,5 @@
 //////////  Driving Simulatorの自動CIビルド・テスト処理  //////////
-/////  Jenkinsのpipeline処理をgroovyにて記載  //////
+/////  Jenkinsのpipeline処理をgroovyにて記載  ///////
 
 pipeline {
     agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
