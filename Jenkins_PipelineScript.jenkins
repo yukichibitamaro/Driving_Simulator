@@ -1,5 +1,5 @@
 //////////  Driving Simulatorの自動CIビルド・テスト処理  //////////
-/////  Jenkinsのpipeline処理をgroovyにて記載  //////
+/////  Jenkinsのpipeline処理をgroovyにて記載  /////
 
 pipeline {
     agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
@@ -34,14 +34,19 @@ pipeline {
                         // JSONファイルの読み込みと変数定義
                         def GitCommit_Info_JSON = readJSON file: 'C:\\Users\\yuyas\\Documents\\04_Virtual_Server_and_Container_Related\\CI_Jenkins\\workspace\\Common\\FSP_Get_Git_Information\\GitCommit_Info.json'
                         env.COMMIT_HASH = GitCommit_Info_JSON.commit_hash
+                        echo env.COMMIT_HASH
                         env.PUSH_AUTHOR = GitCommit_Info_JSON.author
+                        echo env.PUSH_AUTHOR
                         env.PUSH_DATE = GitCommit_Info_JSON.date
+                        echo env.PUSH_DATE
                         env.COMMIT_MESSAGE = GitCommit_Info_JSON.message
+                        echo env.COMMIT_MESSAGE
                     }
                 }
         }
     // MSBuildの実行およびソフト保存(結果をEmail通知) //
         stage('MSBuild') {
+           agent {label 'master'} // スレーブにあるjsonファイル読み込みのため，agentを切り替える
                 steps {
                     script {
                         // リリースビルドの実行
