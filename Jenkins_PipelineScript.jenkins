@@ -1,7 +1,5 @@
 //////////  Driving Simulatorの自動CIビルド・テスト処理  //////////  
 /////  Jenkinsのpipeline処理をgroovyにて記載  /////
-/////だだだだaaaaaaa
-
 
 pipeline {
     agent {label 'master'} // Pipeline監視PCの設定(AWSサーバに設定)
@@ -16,44 +14,20 @@ pipeline {
                     env.GIT_COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 }
             }
-        }
-    // gitコミット情報の取得(JSONファイルの出力と読み込み)
-        stage('Get GitCommit Information') {
-            steps {
-                script {
-                    build job: '/Common/FSP_Get_Information', parameters:[
-                            string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
-                            string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator'),
-                            string(name:'HASH', value: env.GIT_COMMIT_ID)]
-                }
-            }
-        }
-
-
-
     // MSBuildを実行するFSPの呼び出し(結果をEmail通知する) //
         stage('MSBuild') {
             steps {
                 script {
-                    // リリースビルドの実行 //
-                    try {
-                        def MSbuildResult = build job: '/Common/FSP_MSbuild2022', parameters:[
+                        def MSbuildResult = build job: 'FSP_MSbuild2022', parameters:[
                             string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                             string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator'),
                             string(name:'MSBUILD_FILE', value: 'Driving_simulator.sln'),
                             string(name:'HASH', value: env.GIT_COMMIT_ID),
                             string(name:'PLATFORM', value: 'x64'),
                             string(name:'COMPOSITION', value: 'Release')]
-                        build job: '/Common/FSP_Email_Notification', parameters:[
+                            build job: '/Common/FSP_Get_Information', parameters:[
                             string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
-                            string(name:'MSBUILD_RESULT', value: 'MSbuildResult.result')]
-                    } catch (Exception e) {
-                        build job: '/Common/FSP_Email_Notification', parameters:[
-                            string(name:'EMAIL_ADDRES', value: 'yuya4730@gmail.com'),
-                            string(name:'GOOGLE_APP_PASSWORD', value: 'wwny qtsg kbpv ttwn'),
-                            string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
-                            string(name:'MSBUILD_RESULT', value: 'MSbuildResult.result')]
-                    }
+                            string(name:'HASH', value: env.GIT_COMMIT_ID)]
                 }
             }
         }
