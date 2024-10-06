@@ -30,7 +30,7 @@ pipeline {
                             build job: '/Common/FSP_Get_Git_information', parameters:[
                             string(name:'SLAVE', value: 'Node_SurfaceLAPTOP4'),
                             string(name:'HASH', value: env.GIT_COMMIT_ID),
-                            string(name:'PATH', value: 'C:\\Users\\yuyas\\Documents\\04_Virtual_Server_and_Container_Related\\CI_Jenkins\\workspace\\MSbuild\\FSP_MSbuild2022')]
+                            string(name:'REMOTE_REPOSITOURY_URL', value: 'https://github.com/yukichibitamaro/Driving_Simulator')]
                 }
             }
         }
